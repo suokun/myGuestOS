@@ -323,6 +323,10 @@
 314	common	sched_setattr		sys_sched_setattr
 315	common	sched_getattr		sys_sched_getattr
 
+# add by Kun
+316	common	sched_sleep		sys_sched_sleep
+# end
+
 #
 # x32-specific system call numbers start at 512 to avoid cache impact
 # for native 64-bit operation.
