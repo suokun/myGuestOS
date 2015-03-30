@@ -33,7 +33,10 @@
 #define NS_PER_TICK	(1000000000LL / HZ)
 
 /* runstate info updated by Xen */
-static DEFINE_PER_CPU(struct vcpu_runstate_info, xen_runstate);
+//modified by Kun
+//static DEFINE_PER_CPU(struct vcpu_runstate_info, xen_runstate);
+DEFINE_PER_CPU(struct vcpu_runstate_info, xen_runstate);
+//end
 
 
 /* snapshots of runstate info */
