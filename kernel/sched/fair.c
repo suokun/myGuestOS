@@ -34,6 +34,11 @@
 
 #include "sched.h"
 
+
+//add by Kun
+extern DEFINE_PER_CPU(struct vcpu_runstate_info, xen_runstate);
+//end
+
 /*
  * Targeted preemption latency for CPU-bound tasks:
  * (default: 6ms * (1 + ilog(ncpus)), units: nanoseconds)
@@ -4524,6 +4529,12 @@ static void put_prev_task_fair(struct rq *rq, struct task_struct *prev)
 	struct sched_entity *se = &prev->se;
 	struct cfs_rq *cfs_rq;
 
+
+	//add by Kun
+	se->pid = prev->pid;
+	memcpy(se->comm, prev->comm, sizeof(char)*TASK_COMM_LEN);
+	//end
+	
 	for_each_sched_entity(se) {
 		cfs_rq = cfs_rq_of(se);
 		put_prev_entity(cfs_rq, se);
