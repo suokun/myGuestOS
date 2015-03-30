@@ -97,6 +97,16 @@ struct sched_watchdog {
     uint32_t timeout;           /* timeout */
 };
 
+
+//add by Kun
+#define SCHEDOP_sleep 11
+struct sched_sleep {
+	uint64_t timeout;
+};
+DEFINE_GUEST_HANDLE_STRUCT(sched_sleep);
+//end
+
+
 /*
  * Reason codes for SCHEDOP_shutdown. These may be interpreted by control
  * software to determine the appropriate action. For the most part, Xen does
