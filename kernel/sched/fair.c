@@ -36,6 +36,7 @@
 
 
 //add by Kun
+#include <xen/interface/vcpu.h>
 extern DEFINE_PER_CPU(struct vcpu_runstate_info, xen_runstate);
 //end
 
@@ -717,12 +718,34 @@ static void update_curr(struct cfs_rq *cfs_rq)
 	u64 now = rq_clock_task(rq_of(cfs_rq));
 	u64 delta_exec;
 
+	//add by Kun
+	struct vcpu_runstate_info *state;
+	u64 runnable, offline;
+	u64 delta_runnable, delta_offline;
+	u64 delta_stolen;
+	//end
+
+
 	if (unlikely(!curr))
 		return;
 
 	delta_exec = now - curr->exec_start;
 	if (unlikely((s64)delta_exec <= 0))
 		return;
+
+	//add by Kun
+	state = &__get_cpu_var(xen_runstate);
+	runnable = state->time[RUNSTATE_runnable];
+	offline = state->time[RUNSTATE_offline];
+
+	delta_runnable = runnable - curr->runnable_time;
+	delta_offline = offline - curr->offline_time;
+	delta_stolen = delta_runnable + delta_offline;
+
+	if (delta_exec > delta_stolen) {
+		delta_exec = delta_exec - delta_stolen;
+	}
+	//end
 
 	curr->exec_start = now;
 
