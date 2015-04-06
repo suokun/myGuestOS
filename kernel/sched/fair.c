@@ -822,6 +822,16 @@ update_stats_dequeue(struct cfs_rq *cfs_rq, struct sched_entity *se)
 static inline void
 update_stats_curr_start(struct cfs_rq *cfs_rq, struct sched_entity *se)
 {
+	//add by Kun
+	struct vcpu_runstate_info *state;
+
+	state = &__get_cpu_var(xen_runstate);
+	se->running_time = state->time[RUNSTATE_running];
+	se->runnable_time = state->time[RUNSTATE_runnable];
+	se->offline_time = state->time[RUNSTATE_offline];
+	se->blocked_time = state->time[RUNSTATE_blocked];
+	//end
+	
 	/*
 	 * We are starting a new run period:
 	 */
