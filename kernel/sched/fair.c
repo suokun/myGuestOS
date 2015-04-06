@@ -825,6 +825,7 @@ update_stats_curr_start(struct cfs_rq *cfs_rq, struct sched_entity *se)
 	//add by Kun
 	struct vcpu_runstate_info *state;
 
+
 	state = &__get_cpu_var(xen_runstate);
 	se->running_time = state->time[RUNSTATE_running];
 	se->runnable_time = state->time[RUNSTATE_runnable];
